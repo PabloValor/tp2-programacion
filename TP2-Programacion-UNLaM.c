@@ -43,20 +43,20 @@ typedef struct examen{
  };
 
 typedef struct _alumno{
-	char apellido[50];
-   char nombre[50];
-   int dni;
-   int edad;
-   float notas[3];
+    char apellido[50];
+    char nombre[50];
+    int dni;
+    int edad;
+    float notas[3];
 } alumno;
 
 struct comision{
-	int ano;
-   char cuatrimestre;
-   alumno * listaAlumnos; // = NULL;
-   struct examen examenes[3];
-   struct examen * examenesEntregados; // = NULL;
-   char estado; // = COMISION_ABIERTA;
+    int anio;
+    char cuatrimestre;
+    alumno * listaAlumnos; // = NULL;
+    struct examen examenes[3];
+    struct examen * examenesEntregados; // = NULL;
+    char estado; // = COMISION_ABIERTA;
 };
 
 typedef alumno nodo;
@@ -199,17 +199,17 @@ int mostrarOpcionesDocente(){
 
 struct comision darDeAltaComision(){
 
-	struct comision comisionNueva;
-   comisionNueva.ano = 2015;
-   comisionNueva.cuatrimestre = 1;
-	comisionNueva.listaAlumnos = NULL;
-   comisionNueva.examenesEntregados = NULL;
-   comisionNueva.estado = COMISION_ABIERTA;
+    struct comision comisionNueva;
+    comisionNueva.anio = 2015;
+    comisionNueva.cuatrimestre = 1;
+    comisionNueva.listaAlumnos = NULL;
+    comisionNueva.examenesEntregados = NULL;
+    comisionNueva.estado = COMISION_ABIERTA;
 
-	printf("Funcionalidad en mantenimiento. Regrese mas tarde por favor.");
-   getche();
+    printf("Se ha creado una nueva Comision");
+    getche();
 
-   return comisionNueva;
+    return comisionNueva;
 }
 void darDeAltaAlumnos(struct comision * comisionActual){
 	comisionActual->listaAlumnos = NULL;
@@ -241,7 +241,7 @@ void menuExamenes(struct comision * comisionActual){
 
 	int opcionIngresada = 0;
 
-   printf("Datos de la comision. Ano: %d, Cuatrimestre: %d. Estado: %d", comisionActual->ano, comisionActual->cuatrimestre, comisionActual->estado);
+   printf("Datos de la comision. Ano: %d, Cuatrimestre: %d. Estado: %d", comisionActual->anio, comisionActual->cuatrimestre, comisionActual->estado);
    getche();
 
 	if(comisionActual->estado == COMISION_CERRADA){
