@@ -34,60 +34,69 @@
 
 #define PATH "c:\\"
 
-typedef struct examen{
+typedef struct {
 	int dniAlumno;
 	char preguntas[10][255];
 	char respuestas[10][255];
 	char evaluacionRespuesta[10];
 	int estado; // = EXAMEN_CERRADO;
- };
+ } t_examen;
 
-typedef struct _alumno{
+typedef struct {
     char apellido[50];
     char nombre[50];
     int dni;
     int edad;
     float notas[3];
-} alumno;
+} t_alumno;
 
-struct comision{
+typedef struct s_nodo {
+    t_alumno alumno;
+    struct s_nodo *sig;
+} t_nodo;
+
+typedef t_nodo* t_lista;
+
+typedef struct {
     int anio;
     char cuatrimestre;
-    alumno * listaAlumnos; // = NULL;
-    struct examen examenes[3];
-    struct examen * examenesEntregados; // = NULL;
+    t_lista listaAlumnos; // = NULL;
+    t_examen examenes[3];
+    t_examen *examenesEntregados; // = NULL;
     char estado; // = COMISION_ABIERTA;
-};
+} t_comision;
 
-typedef alumno nodo;
 
 void imprimirCabecera(char *);
 int seleccionarPerfil();
 
-void menuDocente(struct comision *);
+void menuDocente(t_comision *);
 int mostrarOpcionesDocente();
-struct comision darDeAltaComision();
-void darDeAltaAlumnos(struct comision *);
-void guardarComision(struct comision *);
-struct comision * buscarComision();
-void menuExamenes(struct comision *);
-void cerrarNotas(struct comision *);
-void generarReporte(struct comision *);
-void menuExamenes(struct comision *);
+t_comision darDeAltaComision();
+void darDeAltaAlumnos(t_comision *);
+void guardarComision(t_comision *);
+t_comision * buscarComision();
+void menuExamenes(t_comision *);
+void cerrarNotas(t_comision *);
+void generarReporte(t_comision *);
+void menuExamenes(t_comision *);
 int mostrarOpcionesExamenes();
-void iniciarExamen(struct comision *);
-void finalizarExamen(struct comision *);
-void corregirExazmen(struct comision *);
+void iniciarExamen(t_comision *);
+void finalizarExamen(t_comision *);
+void corregirExazmen(t_comision *);
 
-void menuAlumno(struct comision *);
+void menuAlumno(t_comision *);
 int mostrarOpcionesAlumno();
-void rendirUnExamen(struct comision *);
-void consultarNota(struct comision *);
+void rendirUnExamen(t_comision *);
+void consultarNota(t_comision *);
 
-void main(void){
+/*  == FUNCIONES PRIMITIVAS DE LISTA == */
+//void crearLista(alumno**);
+
+void main(){
 
 		int perfil;
-		struct comision comisionActual;
+		t_comision comisionActual;
 
 		while((perfil=seleccionarPerfil()) <= SALIR){
 			switch (perfil){
@@ -137,14 +146,14 @@ int seleccionarPerfil(){
    return opcionIngresada;
 }
 
-void menuDocente(struct comision * comisionActual){
+void menuDocente(t_comision* comisionActual){
 
 	int opcionIngresada = 0;
 
 	while((opcionIngresada=mostrarOpcionesDocente()) <= SALIR){
 		switch (opcionIngresada){
 			case DAR_DE_ALTA_UNA_COMISION:
-				(*comisionActual) = darDeAltaComision();
+				*(comisionActual) = darDeAltaComision();
 				break;
 			case DAR_DE_ALTA_ALUMNOS:
 				darDeAltaAlumnos(comisionActual);
@@ -196,12 +205,15 @@ int mostrarOpcionesDocente(){
 	}
    return opcionIngresada;
 }
+  /** Funciones Rol: Docente **/
+t_comision darDeAltaComision(){
 
-struct comision darDeAltaComision(){
+    t_comision comisionNueva;
 
-    struct comision comisionNueva;
-    comisionNueva.anio = 2015;
-    comisionNueva.cuatrimestre = 1;
+    printf("\nIngrese el anio de la comision:\t");
+    scanf("%d", &comisionNueva.anio);
+    printf("\nIngrese el numero de cuatrimestre:\t");
+    scanf("%d", &comisionNueva.cuatrimestre);
     comisionNueva.listaAlumnos = NULL;
     comisionNueva.examenesEntregados = NULL;
     comisionNueva.estado = COMISION_ABIERTA;
@@ -211,33 +223,33 @@ struct comision darDeAltaComision(){
 
     return comisionNueva;
 }
-void darDeAltaAlumnos(struct comision * comisionActual){
-	comisionActual->listaAlumnos = NULL;
+void darDeAltaAlumnos(t_comision* comisionActual){
+   //crearLista(comisionActual->listaAlumnos);
+   printf("\nLista de alumnos creada con exito");
+   getche();
+}
+
+void guardarComision(t_comision* comisionActual){
 	printf("Funcionalidad en mantenimiento. Regrese mas tarde por favor.");
    getche();
 }
 
-void guardarComision(struct comision * comisionActual){
+t_comision* buscarComision(){
 	printf("Funcionalidad en mantenimiento. Regrese mas tarde por favor.");
    getche();
 }
 
-struct comision * buscarComision(){
+void cerrarNotas(t_comision* comisionActual){
 	printf("Funcionalidad en mantenimiento. Regrese mas tarde por favor.");
    getche();
 }
 
-void cerrarNotas(struct comision * comisionActual){
+void generarReporte(t_comision* comisionActual){
 	printf("Funcionalidad en mantenimiento. Regrese mas tarde por favor.");
    getche();
 }
 
-void generarReporte(struct comision * comisionActual){
-	printf("Funcionalidad en mantenimiento. Regrese mas tarde por favor.");
-   getche();
-}
-
-void menuExamenes(struct comision * comisionActual){
+void menuExamenes(t_comision* comisionActual){
 
 	int opcionIngresada = 0;
 
@@ -291,21 +303,21 @@ int mostrarOpcionesExamenes(){
 	return opcionIngresada;
 }
 
-void iniciarExamen(struct comision * comisionActual){
+void iniciarExamen(t_comision* comisionActual){
 	printf("Funcionalidad en mantenimiento. Regrese mas tarde por favor.");
    getche();
 }
-void finalizarExamen(struct comision * comisionActual){
-	printf("Funcionalidad en mantenimiento. Regrese mas tarde por favor.");
-   getche();
-}
-
-void corregirExazmen(struct comision * comisionActual){
+void finalizarExamen(t_comision* comisionActual){
 	printf("Funcionalidad en mantenimiento. Regrese mas tarde por favor.");
    getche();
 }
 
-void menuAlumno(struct comision * comisionActual){
+void corregirExazmen(t_comision* comisionActual){
+	printf("Funcionalidad en mantenimiento. Regrese mas tarde por favor.");
+   getche();
+}
+
+void menuAlumno(t_comision* comisionActual){
 
 	int opcionIngresada = 0;
 
@@ -352,11 +364,17 @@ int mostrarOpcionesAlumno(){
 	return opcionIngresada;
 }
 
-void rendirUnExamen(struct comision * comisionActual){
+void rendirUnExamen(t_comision* comisionActual){
 	printf("Funcionalidad en mantenimiento. Regrese mas tarde por favor.");
    getche();
 }
-void consultarNota(struct comision * comisionActual){
+void consultarNota(t_comision* comisionActual){
 	printf("Funcionalidad en mantenimiento. Regrese mas tarde por favor.");
    getche();
 }
+
+/* == FUNCIONES DE LISTA == */
+
+/*void crearLista(alumno **p) {
+    *p = NULL;
+}*/
